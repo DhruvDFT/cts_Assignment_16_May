@@ -1,45 +1,15 @@
-
 import streamlit as st
-import pandas as pd
-from datetime import datetime
+from powerplan_set1 import questions as set1
+from powerplan_set2 import questions as set2
+from powerplan_set3 import questions as set3
+from powerplan_set4 import questions as set4
 
-st.set_page_config(page_title="CTS Interview Assignment")
+def main():
+    st.title("PowerPlan + TCL Assignment Questions")
+    option = st.sidebar.selectbox("Select Question Set", ["Set 1", "Set 2", "Set 3", "Set 4"])
+    qs = {"Set 1": set1, "Set 2": set2, "Set 3": set3, "Set 4": set4}[option]
+    for idx, q in enumerate(qs, start=1):
+        st.markdown(f"**Q{idx}.** {q}")
 
-st.title("🔖 CTS Interview Questions Assignment")
-
-name = st.text_input("👤 Engineer Name:")
-email = st.text_input("📧 Email ID:")
-
-question_sets = {'Set 1': ['How do you precisely control clock skew and latency through advanced CTS techniques?', 'Explain useful skew implementation and how you quantify its effectiveness.', 'What methodology do you follow to handle cross-talk induced delays on clock paths?', 'Describe how OCV derating is applied specifically during CTS for multi-corner designs.', 'What is the difference between local skew and global skew, and how do you manage each?', 'If you observe higher dynamic power due to clock gating cells, what optimization would you perform?', 'Your CTS results show significant discrepancies between pre-route and post-route skew. How do you investigate?', 'A post-CTS simulation reveals jitter issues. What are your immediate debugging steps?', "You notice clock tree synthesis significantly impacted your design's congestion map. What's your approach to address this?", 'How would you handle an unexpected increase in hold violations right after CTS?', 'Explain a scenario where clock uncertainty assumptions during CTS led to timing closure challenges and how you resolved it.', 'How do you handle a scenario where your clock distribution leads to excessive IR drop?', 'After implementing intentional skew, how do you validate that your timing objectives are met without unintended violations?', 'If propagated clock data differs significantly from ideal clock assumptions, what steps would you take?', 'When you see repeated violations due to clock reconvergence pessimism, what strategies do you employ?', 'If the clock latency in your chip varies significantly across different blocks, how do you ensure uniformity?', 'During CTS, if clock insertion delay becomes unexpectedly large, how would you debug the situation?', "Describe how you'd react if clock ECOs cause a ripple of new violations across multiple timing paths.", 'Explain how you address a situation where clock nets exhibit high EM risk after initial CTS implementation.', 'If clock tree adjustments cause severe hold/setup interplay issues, how would you systematically resolve them?'], 'Set 2': ['How do you incorporate clock shielding during CTS, and what challenges do you encounter?', 'Explain the principles behind managing MCMM corners during CTS.', 'What strategies do you use to ensure robustness of your CTS solution under extreme process variations?', 'Describe your method to analyze and minimize clock jitter during CTS.', 'How do you manage power consumption in clock networks without sacrificing timing performance?', 'Your CTS has resulted in high skew on a critical IP block. What debugging methodology would you follow?', "If CTS significantly affects overall chip routing congestion, what's your approach to mitigating it?", 'Suppose the implemented clock gating strategy causes unanticipated timing violations—how do you handle this?', 'When your clock latency is not uniform across functional blocks, describe how you resolve this.', 'If you identify that your CTS has introduced large EM violations, describe the corrective measures you apply.', 'Describe a scenario where CTS adjustments led to substantial dynamic IR drop and your method of resolution.', 'How would you correct issues arising from unbalanced clock trees across multiple voltage domains?', 'Explain your strategy to address large OCV impacts post-CTS.', 'After CTS, the clock nets fail timing due to NDR implementation issues. How do you approach the solution?', 'Describe your method when post-CTS verification shows major differences between propagated and ideal clock timing.', 'If you encounter CRP-related pessimism in STA post-CTS, how do you debug and address this?', 'Describe an advanced scenario where intentional skew impacted overall system timing and how you managed it.', "Suppose you see discrepancies between CTS-calculated latency and actual silicon measurements; what's your approach?", 'If unexpected delays due to buffer insertion arise in CTS, how do you mitigate their timing impact?', 'Describe your methodical approach if your clock ECOs introduce severe new timing issues.'], 'Set 3': ['Explain how you systematically manage clock uncertainty for high-performance designs.', 'How do you differentiate and utilize beneficial skew versus harmful skew in CTS?', 'What advanced methods do you use for clock latency optimization without power penalties?', 'Describe how you handle clock gating optimization challenges specifically in low-power designs.', 'What are your best practices in applying NDR rules for clock paths?', 'You notice significant clock tree imbalance post-CTS; outline your immediate debugging actions.', 'How would you systematically address and debug CTS-related congestion issues observed post-route?', 'Describe your approach when a clock tree causes unexpected EM/IR drop problems during late stages.', "After CTS, multiple critical paths fail setup checks. What's your methodical debugging and fixing approach?", 'Your useful skew implementation leads to unintended timing issues; describe your response and fix.', 'What steps would you take if OCV assumptions cause your CTS solution to degrade timing significantly?', 'After implementing clock shielding, routing congestion increases dramatically. How do you respond?', 'How do you debug clock jitter if it becomes evident post-CTS in STA?', 'Describe your method to resolve CTS-related CRP violations impacting overall timing.', 'If CTS-introduced hold fixes worsen setup timing significantly, explain your resolution strategy.', "Your propagated clock timings differ drastically from ideal assumptions post-route; what's your next step?", 'Suppose CTS leads to severe IR drop issues; explain your immediate investigation and corrective steps.', 'Describe a scenario where clock gating negatively impacted clock latency and how you handled it.', 'Explain your approach to resolve unexpected latency skew variations across multiple blocks.', 'If unexpected OCV-induced variations appear post-CTS, outline your debugging and mitigation steps.'], 'Set 4': ['Describe how advanced CTS strategies can reduce overall dynamic power.', 'Explain how you precisely control and optimize clock reconvergence issues.', 'Discuss advanced methodologies you use to handle clock jitter and clock uncertainty simultaneously.', 'How do you perform CTS optimization while handling cross-domain timing constraints?', 'What advanced techniques do you use to minimize CTS impacts on congestion?', 'Describe your approach when clock tree buffers cause significant routing congestion post-CTS.', 'How would you systematically debug and fix skew-related issues identified post-route?', 'If intentional skew adjustments cause unexpected STA issues, outline your corrective actions.', 'Your design sees severe dynamic IR drop around clock gates; describe your troubleshooting methodology.', "If CTS ECOs unexpectedly create widespread hold-time violations, what's your immediate course of action?", 'Explain a challenging scenario where NDR on clock nets caused timing degradation and your approach to solve it.', 'How would you handle severe OCV-induced timing failures after CTS implementation?', 'Describe your method to resolve critical latency and skew trade-offs during high-frequency CTS implementations.', 'If your useful skew approach inadvertently increases power, how do you analyze and address this issue?', 'How do you manage CTS-related clock gating inefficiencies when identified post-route?', 'Describe your debugging method when clock latency dramatically increases post-CTS due to buffers insertion.', 'Outline your method for handling clock-tree related EM violations identified late in the PD flow.', "If clock tree synthesis introduces cross-talk noise causing functional issues, what's your solution strategy?", 'Explain your response strategy if clock shielding adversely impacts your timing closure.', 'How would you systematically resolve significant discrepancies between CTS predicted and silicon-measured skew?']}
-
-answers = {}
-
-for set_name, questions in question_sets.items():
-    with st.expander(set_name):
-        st.subheader(set_name)
-        answers[set_name] = {}
-        for q in questions:
-            response = st.text_area(f"{q}", height=100)
-            answers[set_name][q] = response
-
-if st.button("Submit Assignment"):
-    if not name or not email:
-        st.error("Please enter your name and email.")
-    else:
-        submission_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-        df_rows = []
-        for set_name, qs in answers.items():
-            for question, answer in qs.items():
-                df_rows.append({
-                    "Engineer Name": name,
-                    "Email": email,
-                    "Question Set": set_name,
-                    "Question": question,
-                    "Answer": answer
-                })
-
-        df = pd.DataFrame(df_rows)
-        filename = f"{name.replace(' ', '_')}_{submission_time}.csv"
-        df.to_csv(filename, index=False)
-
-        st.success("✅ Assignment submitted successfully. Your responses have been saved.")
+if __name__ == "__main__":
+    main()
